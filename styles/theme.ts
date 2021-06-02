@@ -5,10 +5,13 @@ const theme = createMuiTheme({
     htmlFontSize: 20,
     fontFamily: "Jetbrains Mono",
     h1: {
-      fontFamily: "Roboto Slab"
+      fontFamily: "'Cabin Sketch', cursive"
     },
     h2: {
-      fontFamily: "Roboto Slab"
+      fontFamily: "'Cabin Sketch', cursive"
+    },
+    h3: {
+      fontFamily: "'Cabin Sketch', cursive"
     },
     body1: {
       fontSize: '1rem',

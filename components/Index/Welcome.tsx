@@ -29,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: '-0.01rem'
   },
   avatar: {
-    width: '12rem',
-    height: '12rem',
+    width: '13rem',
+    height: '13rem',
     marginRight: '2rem'
   }
 }))
@@ -42,7 +42,7 @@ export default function Welcome() {
     <div>
       <Avatar src={me} alt={"me"} className={classes.avatar}/>
       <div>
-        <Typography variant={"h2"}>Hi, I'm Phong</Typography>
+        <Typography variant={"h1"}>Hi, I'm Phong</Typography>
         <Typography className={classes.subtitle}>"I'm a trivial frontend developer, <br/>but I just wanna tell the world
           that
           I'd love what I do"</Typography>

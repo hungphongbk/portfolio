@@ -17,6 +17,7 @@ const useStyles = makeStyles<DefaultTheme, SectionHeaderProps>(theme => ({
   },
   title: {
     '& small': {
+      fontFamily: "'Jetbrains Mono', monospace",
       color: theme.palette.primary.main,
       display: 'inline-block',
       marginRight: '.7rem'
@@ -27,7 +28,7 @@ const useStyles = makeStyles<DefaultTheme, SectionHeaderProps>(theme => ({
 export default function SectionHeader(props: SectionHeaderProps) {
   const classes = useStyles(props);
   return <div className={classes.root}>
-    <Typography variant={'h4'} className={classes.title}>
+    <Typography variant={'h3'} className={classes.title}>
       <small>{`${(props.number + "").padStart(2, '0')}.`}</small>
       {props.title}
     </Typography>
