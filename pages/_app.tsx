@@ -7,9 +7,11 @@ import Router from "next/router";
 import PageChange from "../components/PageChange/PageChange";
 
 import "styles/scss/nextjs-material-kit.scss?v=1.2.0";
-import {ThemeProvider} from "styled-components";
+import {ThemeProvider} from '@material-ui/core/styles';
 import theme from "../styles/theme";
 import {CssBaseline} from "@material-ui/core";
+import createCache from '@emotion/cache';
+import {CacheProvider} from '@emotion/react';
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -28,6 +30,8 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
+export const cache = createCache({key: 'css', prepend: true});
+
 export default function MyApp(props: AppProps) {
   const {Component, pageProps} = props;
 
@@ -40,7 +44,7 @@ export default function MyApp(props: AppProps) {
   }, []);
 
   return (
-    <React.Fragment>
+    <CacheProvider value={cache}>
       <Head>
         <meta
           name="viewport"
@@ -53,7 +57,7 @@ export default function MyApp(props: AppProps) {
         <CssBaseline/>
         <Component {...pageProps} />
       </ThemeProvider>
-    </React.Fragment>
+    </CacheProvider>
   );
 }
 

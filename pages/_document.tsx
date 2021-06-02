@@ -1,6 +1,15 @@
 import React from "react";
 import Document, {DocumentContext, Head, Html, Main, NextScript} from "next/document";
 import {ServerStyleSheets} from "@material-ui/styles";
+import createCache from "@emotion/cache";
+import createEmotionServer from '@emotion/server/create-instance';
+
+const getCache = () => {
+  const cache = createCache({key: 'css', prepend: true});
+  cache.compat = true;
+
+  return cache;
+};
 
 class MyDocument extends Document {
   render() {
@@ -15,12 +24,13 @@ class MyDocument extends Document {
             sizes="76x76"
             href="/img/apple-icon.png"
           />
-          {/* Fonts and icons */}
+          <link rel="preconnect" href="https://fonts.gstatic.com"/>
           <link
             rel="stylesheet"
             type="text/css"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
           />
+          <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"/>
           <link
             href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
             rel="stylesheet"
@@ -63,12 +73,24 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
+  const cache = getCache();
+  const {extractCriticalToChunks} = createEmotionServer(cache);
+
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      key={style.key}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{__html: style.css}}
+    />
+  ));
 
   return {
     ...initialProps,
@@ -77,6 +99,7 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
       <React.Fragment key="styles">
         {initialProps.styles}
         {sheets.getStyleElement()}
+        {emotionStyleTags}
       </React.Fragment>,
     ],
   };

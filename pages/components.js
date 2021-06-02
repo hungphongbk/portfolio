@@ -40,12 +40,7 @@ export default function Components(props) {
       <Header
         brand="NextJS Material Kit"
         rightLinks={<HeaderLinks />}
-        fixed
-        color="transparent"
-        changeColorOnScroll={{
-          height: 400,
-          color: "white",
-        }}
+        color="white"
         {...rest}
       />
       <Parallax image="/img/nextjs_header.jpg">

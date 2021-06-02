@@ -108,7 +108,7 @@ nextjs-material-kit
 │   ├── _document.tsx
 │   ├── _error.js
 │   ├── components.js
-│   ├── index.js
+│   ├── index.tsx
 │   ├── landingpage.js
 │   ├── loginpage.js
 │   └── profilepage.js
