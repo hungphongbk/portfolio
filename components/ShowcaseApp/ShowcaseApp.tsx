@@ -7,6 +7,7 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
   root: {
     display: 'grid',
     gridColumnGap: theme.spacing(3),
+    alignItems: 'center',
     '& >:nth-child(1)': {order: props => props.direction === "left" ? 1 : 2},
     '& >:nth-child(2)': {order: props => props.direction === "left" ? 2 : 1},
   },
@@ -74,7 +75,9 @@ export default function ShowcaseApp(props: ShowcaseAppProps & { direction: 'left
     <ShowcaseAppPreview value={props.value}/>
     <div className={classes.content}>
       <Typography variant={"h4"}>{props.value.name}</Typography>
-      <Typography color={"textSecondary"} className={classes.description}>{props.value.description}</Typography>
+      <Typography color={"textSecondary"}
+                  className={classes.description}>{props.value.description.split('\n').map((line, index) => <p
+        key={index}>{line}</p>)}</Typography>
       <ul className={classes.techniques}>
         {props.value.techniques.map(t => <li key={t}>{t}</li>)}
       </ul>
