@@ -2,7 +2,6 @@ import {
   primaryColor,
   dangerColor,
   successColor,
-  defaultFont,
 } from "styles/jss/nextjs-material-kit.js";
 
 const customInputStyle = {
@@ -39,7 +38,6 @@ const customInputStyle = {
     },
   },
   labelRoot: {
-    ...defaultFont,
     color: "#AAAAAA !important",
     fontWeight: "400",
     fontSize: "14px",

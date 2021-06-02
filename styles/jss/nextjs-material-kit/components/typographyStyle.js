@@ -1,5 +1,4 @@
 import {
-  defaultFont,
   primaryColor,
   infoColor,
   successColor,
@@ -9,7 +8,6 @@ import {
 
 const typographyStyle = {
   defaultFontStyle: {
-    ...defaultFont,
     fontSize: "14px",
   },
   defaultHeaderMargins: {

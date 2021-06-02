@@ -1,5 +1,4 @@
 import {
-  defaultFont,
   primaryColor,
   primaryBoxShadow,
   infoColor,
@@ -70,7 +69,6 @@ const customDropdownStyle = (theme) => ({
     },
   },
   dropdownItem: {
-    ...defaultFont,
     fontSize: "13px",
     padding: "10px 20px",
     margin: "0 5px",

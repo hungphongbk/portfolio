@@ -104,8 +104,8 @@ nextjs-material-kit
 │       ├── plugins
 │       └── nextjs-material-kit.scss
 ├── pages
-│   ├── _app.js
-│   ├── _document.js
+│   ├── _app.tsx
+│   ├── _document.tsx
 │   ├── _error.js
 │   ├── components.js
 │   ├── index.js

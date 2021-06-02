@@ -1,5 +1,4 @@
 import {
-  defaultFont,
   primaryBoxShadow,
   infoBoxShadow,
   successBoxShadow,
@@ -10,7 +9,6 @@ import {
 
 const snackbarContentStyle = {
   root: {
-    ...defaultFont,
     position: "relative",
     padding: "20px 15px",
     lineHeight: "20px",
