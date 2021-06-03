@@ -1,6 +1,7 @@
 import {makeStyles} from "@material-ui/core/styles";
-import {Avatar, Typography} from "@material-ui/core";
+import {Avatar, Typography, useMediaQuery, useTheme} from "@material-ui/core";
 import IntroIcon from '../../assets/artworks/Intro.svg'
+import IntroIconMobile from '../../assets/artworks/Intro-mobile.svg'
 import me from '../../assets/images/me.jpg'
 
 const useStyles = makeStyles(theme => ({
@@ -16,6 +17,19 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'start',
       alignSelf: 'start',
       paddingLeft: '20%',
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        paddingLeft: 0,
+        justifyContent: 'center',
+        '& >div': {
+          textAlign: 'center'
+        }
+      },
+      '& .MuiTypography-h1': {
+        [theme.breakpoints.down('sm')]: {
+          paddingTop: theme.spacing(4)
+        }
+      }
     },
     '& svg': {
       width: '100%',
@@ -31,12 +45,17 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     width: '13rem',
     height: '13rem',
-    marginRight: '2rem'
+    marginRight: '2rem',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 0
+    }
   }
 }))
 
 export default function Welcome() {
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   return <div className={classes.root}>
     <div>
@@ -48,6 +67,6 @@ export default function Welcome() {
           I'd love what I do"</Typography>
       </div>
     </div>
-    <IntroIcon/>
+    {matches ? <IntroIconMobile/> : <IntroIcon/>}
   </div>
 }

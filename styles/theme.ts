@@ -5,7 +5,7 @@ const theme = createMuiTheme({
     htmlFontSize: 20,
     fontFamily: "Jetbrains Mono",
     h1: {
-      fontFamily: "'Cabin Sketch', cursive"
+      fontFamily: "'Cabin Sketch', cursive",
     },
     h2: {
       fontFamily: "'Cabin Sketch', cursive"
@@ -25,5 +25,11 @@ const theme = createMuiTheme({
     }
   }
 })
+theme.typography.h1 = {
+  ...theme.typography.h1,
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '3.2rem'
+  }
+}
 
 export default theme

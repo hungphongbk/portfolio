@@ -8,8 +8,7 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
     display: 'grid',
     gridColumnGap: theme.spacing(3),
     alignItems: 'center',
-    '& >:nth-child(1)': {order: props => props.direction === "left" ? 1 : 2},
-    '& >:nth-child(2)': {order: props => props.direction === "left" ? 2 : 1},
+    '& >:nth-child(2)': {display: 'flex', flexDirection: 'column'},
   },
   content: {
     '& *': {
@@ -38,6 +37,8 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
     }
   },
   left: {
+    '& >:nth-child(1)': {order: 1},
+    '& >:nth-child(2)': {order: 2, alignItems: 'end'},
     '&$root': {
       gridTemplateColumns: '5fr 4fr',
     },
@@ -53,6 +54,8 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
     }
   },
   right: {
+    '& >:nth-child(1)': {order: 2},
+    '& >:nth-child(2)': {order: 1, alignItems: 'start'},
     '&$root': {
       gridTemplateColumns: '4fr 5fr',
     },
