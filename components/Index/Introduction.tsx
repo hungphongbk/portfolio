@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
     position: 'relative',
     display: 'flex',
-    justifyContent: 'end',
+    justifyContent: 'flex-end',
     '& ul': {
       position: 'absolute',
       top: '20vh',

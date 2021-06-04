@@ -38,7 +38,7 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
   },
   left: {
     '& >:nth-child(1)': {order: 1},
-    '& >:nth-child(2)': {order: 2, alignItems: 'end'},
+    '& >:nth-child(2)': {order: 2, alignItems: 'flex-end'},
     '&$root': {
       gridTemplateColumns: '5fr 4fr',
     },
