@@ -1,7 +1,8 @@
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import ShowcaseAppPreview from "./ShowcaseAppPreview";
 import classNames from "classnames";
-import {Typography} from "@material-ui/core";
+import {Typography, useMediaQuery, useTheme} from "@material-ui/core";
+import Image from 'next/image'
 
 const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
   root: {
@@ -40,7 +41,9 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
     '& >:nth-child(1)': {order: 1},
     '& >:nth-child(2)': {order: 2, alignItems: 'flex-end'},
     '&$root': {
-      gridTemplateColumns: '5fr 4fr',
+      [theme.breakpoints.up('sm')]: {
+        gridTemplateColumns: '5fr 4fr',
+      }
     },
     '& $description': {
       borderRightWidth: 2,
@@ -57,7 +60,9 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
     '& >:nth-child(1)': {order: 2},
     '& >:nth-child(2)': {order: 1, alignItems: 'start'},
     '&$root': {
-      gridTemplateColumns: '4fr 5fr',
+      [theme.breakpoints.up('sm')]: {
+        gridTemplateColumns: '4fr 5fr',
+      }
     },
     '& $description': {
       borderLeftWidth: 2,
@@ -74,16 +79,30 @@ const useStyles = makeStyles<Theme, { direction: 'left' | 'right' }>(theme => ({
 
 export default function ShowcaseApp(props: ShowcaseAppProps & { direction: 'left' | 'right' }) {
   const classes = useStyles(props);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   return <div className={classNames(classes.root, classes[props.direction], props.className)}>
-    <ShowcaseAppPreview value={props.value}/>
-    <div className={classes.content}>
-      <Typography variant={"h4"}>{props.value.name}</Typography>
-      <Typography color={"textSecondary"}
-                  className={classes.description}>{props.value.description.split('\n').map((line, index) => <p
-        key={index}>{line}</p>)}</Typography>
-      <ul className={classes.techniques}>
-        {props.value.techniques.map(t => <li key={t}>{t}</li>)}
-      </ul>
-    </div>
+    {matches ? <>
+      <div className={classes.content}>
+        <Typography variant={"h4"}>{props.value.name}</Typography>
+        <Typography color={"textSecondary"}
+                    className={classes.description}>{props.value.description.split('\n').map((line, index) => <p
+          key={index}>{line}</p>)}</Typography>
+        <ShowcaseAppPreview value={props.value}/>
+        <ul className={classes.techniques}>
+          {props.value.techniques.map(t => <li key={t}>{t}</li>)}
+        </ul>
+      </div>
+    </> : <><ShowcaseAppPreview value={props.value}/>
+      <div className={classes.content}>
+        <Typography variant={"h4"}>{props.value.name}</Typography>
+        <Typography color={"textSecondary"}
+                    className={classes.description}>{props.value.description.split('\n').map((line, index) => <p
+          key={index}>{line}</p>)}</Typography>
+        <ul className={classes.techniques}>
+          {props.value.techniques.map(t => <li key={t}>{t}</li>)}
+        </ul>
+      </div>
+    </>}
   </div>
 }
