@@ -3,6 +3,7 @@ import {Avatar, Typography, useMediaQuery, useTheme} from "@material-ui/core";
 import IntroIcon from '../../assets/artworks/Intro.svg'
 import IntroIconMobile from '../../assets/artworks/Intro-mobile.svg'
 import me from '../../assets/images/me.jpg'
+import Image from 'next/image'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,7 +60,9 @@ export default function Welcome() {
 
   return <div className={classes.root}>
     <div>
-      <Avatar src={me} alt={"me"} className={classes.avatar}/>
+      <Avatar className={classes.avatar}>
+        <Image src={me} alt={"me"} width={600} height={600}/>
+      </Avatar>
       <div>
         <Typography variant={"h1"}>Hi, I'm Phong</Typography>
         <Typography className={classes.subtitle}>"I'm a trivial frontend developer, <br/>but I just wanna tell the world

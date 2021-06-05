@@ -31,5 +31,17 @@ theme.typography.h1 = {
     fontSize: '3.2rem'
   }
 }
+theme.typography.h3 = {
+  ...theme.typography.h3,
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '2rem'
+  }
+}
+theme.typography.body1 = {
+  ...theme.typography.body1,
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.75rem'
+  }
+}
 
 export default theme
