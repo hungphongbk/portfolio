@@ -1,18 +1,42 @@
 import React from "react";
-import Document, {DocumentContext, Head, Html, Main, NextScript} from "next/document";
-import {ServerStyleSheets} from "@material-ui/styles";
-import createCache from "@emotion/cache";
-import createEmotionServer from '@emotion/server/create-instance';
+import Document, {Head, Html, Main, NextScript} from "next/document";
+import {ServerStyleSheet as StyledServerStyleSheets} from "styled-components";
+import {ServerStyleSheets as MuiServerStyleSheets} from "@material-ui/core";
 
-const getCache = () => {
-  const cache = createCache({key: 'css', prepend: true});
-  cache.compat = true;
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const muiServerStyleSheets = new MuiServerStyleSheets();
+    const styledServerStyleSheets = new StyledServerStyleSheets()
 
-  return cache;
-};
+    const originalRenderPage = ctx.renderPage;
 
-class MyDocument extends Document {
+    try{
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) => styledServerStyleSheets.collectStyles(muiServerStyleSheets.collect(
+            <App {...props} />))
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+
+      return {
+        ...initialProps,
+        // Styles fragment is rendered after the app and page rendering finish.
+        styles: [
+          <React.Fragment key="styles">
+            {initialProps.styles}
+            {muiServerStyleSheets.getStyleElement()}
+            {styledServerStyleSheets.getStyleElement()}
+          </React.Fragment>,
+        ],
+      };
+    } finally{
+      styledServerStyleSheets.seal()
+    }
+  }
+
   render() {
+    // noinspection HtmlRequiredTitleElement
     return (
       <Html lang="en">
         <Head>
@@ -41,7 +65,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-        <div id="page-transition"></div>
+        <div id="page-transition"/>
         <Main/>
         <NextScript/>
         </body>
@@ -49,64 +73,3 @@ class MyDocument extends Document {
     );
   }
 }
-
-MyDocument.getInitialProps = async (ctx: DocumentContext) => {
-  // Resolution order
-  //
-  // On the server:
-  // 1. app.getInitialProps
-  // 2. page.getInitialProps
-  // 3. document.getInitialProps
-  // 4. app.render
-  // 5. page.render
-  // 6. document.render
-  //
-  // On the server with error:
-  // 1. document.getInitialProps
-  // 2. app.render
-  // 3. page.render
-  // 4. document.render
-  //
-  // On the client
-  // 1. app.getInitialProps
-  // 2. page.getInitialProps
-  // 3. app.render
-  // 4. page.render
-
-  // Render app and page and get the context of the page with collected side effects.
-  const sheets = new ServerStyleSheets();
-  const originalRenderPage = ctx.renderPage;
-
-  const cache = getCache();
-  const {extractCriticalToChunks} = createEmotionServer(cache);
-
-  ctx.renderPage = () =>
-    originalRenderPage({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-    });
-
-  const initialProps = await Document.getInitialProps(ctx);
-  const emotionStyles = extractCriticalToChunks(initialProps.html);
-  const emotionStyleTags = emotionStyles.styles.map((style) => (
-    <style
-      data-emotion={`${style.key} ${style.ids.join(' ')}`}
-      key={style.key}
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{__html: style.css}}
-    />
-  ));
-
-  return {
-    ...initialProps,
-    // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      <React.Fragment key="styles">
-        {initialProps.styles}
-        {sheets.getStyleElement()}
-        {emotionStyleTags}
-      </React.Fragment>,
-    ],
-  };
-};
-
-export default MyDocument;

@@ -15,6 +15,7 @@ import {
 const headerStyle = {
   appBar: {
     display: "flex",
+    flexDirection: 'column',
     border: "0",
     borderRadius: "3px",
     color: "#555",

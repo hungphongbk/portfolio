@@ -10,8 +10,6 @@ import "styles/scss/nextjs-material-kit.scss?v=1.2.0";
 import {ThemeProvider} from '@material-ui/core/styles';
 import theme from "../styles/theme";
 import {CssBaseline} from "@material-ui/core";
-import createCache from '@emotion/cache';
-import {CacheProvider} from '@emotion/react';
 import {Provider} from "next-auth/client";
 
 Router.events.on("routeChangeStart", (url) => {
@@ -31,8 +29,6 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-export const cache = createCache({key: 'css', prepend: true});
-
 export default function MyApp(props: AppProps) {
   const {Component, pageProps} = props;
 
@@ -46,7 +42,6 @@ export default function MyApp(props: AppProps) {
 
   return (
     <Provider session={pageProps.session}>
-      <CacheProvider value={cache}>
         <Head>
           <meta
             name="viewport"
@@ -59,7 +54,6 @@ export default function MyApp(props: AppProps) {
           <CssBaseline/>
           <Component {...pageProps} />
         </ThemeProvider>
-      </CacheProvider>
     </Provider>
   );
 }

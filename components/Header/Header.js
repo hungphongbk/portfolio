@@ -5,7 +5,7 @@ import classNames from "classnames";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,6 +16,8 @@ import Drawer from "@material-ui/core/Drawer";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import styles from "styles/jss/nextjs-material-kit/components/headerStyle.js";
+import {useSession} from "next-auth/client";
+import AdminHeader from "./AdminHeader";
 
 const useStyles = makeStyles(styles);
 
@@ -25,7 +27,7 @@ export default function Header(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const { color, rightLinks, leftLinks, fixed, absolute } = props;
+  const {color, rightLinks, leftLinks, fixed, absolute} = props;
   const appBarClasses = classNames({
     [classes.appBar]: true,
     [classes[color]]: color,
@@ -37,8 +39,10 @@ export default function Header(props) {
       <Button className={classes.title}>Илья Кирос</Button>
     </Link>
   );
+  const session = useSession();
   return (
     <AppBar className={appBarClasses} elevation={0}>
+      {session && <AdminHeader session={session}/>}
       <Toolbar className={classes.container}>
         {leftLinks !== undefined ? brandComponent : null}
         <div className={classes.flex}>
@@ -59,7 +63,7 @@ export default function Header(props) {
             aria-label="open drawer"
             onClick={handleDrawerToggle}
           >
-            <Menu />
+            <Menu/>
           </IconButton>
         </Hidden>
       </Toolbar>
