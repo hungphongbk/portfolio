@@ -12,6 +12,7 @@ import theme from "../styles/theme";
 import {CssBaseline} from "@material-ui/core";
 import createCache from '@emotion/cache';
 import {CacheProvider} from '@emotion/react';
+import {Provider} from "next-auth/client";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -44,29 +45,21 @@ export default function MyApp(props: AppProps) {
   }, []);
 
   return (
-    <CacheProvider value={cache}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <title>Ilya Truong | UI/UX Designer, Frontend Developer</title>
-      </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline/>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </CacheProvider>
+    <Provider session={pageProps.session}>
+      <CacheProvider value={cache}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <title>Ilya Truong | UI/UX Designer, Frontend Developer</title>
+        </Head>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline/>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   );
-}
-
-MyApp.getInitialProps = async ({Component, router, ctx}) => {
-  let pageProps = {};
-
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-
-  return {pageProps};
 }
